@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Portal - Create Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .header-banner { background: white; border-bottom: 3px solid #0056b3; padding: 20px 0; text-align: center; }
+        
+        .signup-section { margin-top: 50px; }
+        .auth-card { border: none; border-radius: 15px; overflow: hidden; transition: transform 0.3s; height: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        .card-header-custom { padding: 20px; text-align: right; color: white; font-weight: bold; font-size: 1.2rem; }
+        .bg-teacher { background: #8e24aa; } 
+        .bg-student { background: #fb8c00; } 
+        .bg-parent { background: #039be5; }  
+
+        .card-body { background: white; padding: 25px; }
+        .form-label { font-size: 0.9rem; color: #2c3e50; font-weight: bold; }
+        .avatar-img { width: 60px; margin-bottom: 10px; }
+        
+        .btn-signup { border-radius: 20px; padding: 8px 25px; font-weight: bold; text-transform: uppercase; width: 100%; }
+        .back-link { font-size: 0.85rem; display: block; margin-top: 15px; color: #0056b3; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<div class="header-banner">
+    <div class="container">
+        <h2 class="fw-bold m-0">SOUTH POINT S.E.C E.N.G B.O.A SCHOOL(+2)</h2>
+        <p class="text-muted mb-0">Portal Registration Center</p>
+    </div>
+</div>
+
+<div class="container signup-section">
+    <div class="row g-4 justify-content-center">
+        
+        <div class="col-md-4">
+            <div class="card auth-card">
+                <div class="card-header-custom bg-teacher">Employee Registration</div>
+                <div class="card-body text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/206/206857.png" class="avatar-img" alt="Teacher">
+                    <form action="/signup" method="POST">
+                        <input type="hidden" name="role" value="teacher">
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Full Name / Username</label>
+                            <input type="text" name="username" class="form-control" required>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Set Password</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-signup bg-teacher border-0">Create Teacher Account</button>
+                    </form>
+                    <a href="/login" class="back-link">← Back to Login</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card auth-card">
+                <div class="card-header-custom bg-student">Student Registration</div>
+                <div class="card-body text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135810.png" class="avatar-img" alt="Student">
+                    <form action="/signup" method="POST">
+                        <input type="hidden" name="role" value="student">
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Roll No / Username</label>
+                            <input type="text" name="username" class="form-control" required>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Set Password</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-warning btn-signup bg-student border-0 text-white">Create Student Account</button>
+                    </form>
+                    <a href="/login" class="back-link">← Back to Login</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card auth-card">
+                <div class="card-header-custom bg-parent">Parent Registration</div>
+                <div class="card-body text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/4128/4128176.png" class="avatar-img" alt="Parent">
+                    <form action="/signup" method="POST">
+                        <input type="hidden" name="role" value="parent">
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Parent Username</label>
+                            <input type="text" name="username" class="form-control" required>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Set Password</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-info btn-signup bg-parent border-0 text-white">Create Parent Account</button>
+                    </form>
+                    <a href="/login" class="back-link">← Back to Login</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

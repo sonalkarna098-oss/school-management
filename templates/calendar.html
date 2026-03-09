@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid p-0 position-relative mb-5" style="
+    background-image: url('https://images.unsplash.com/photo-1506784919141-93ad5499d7b9?auto=format&fit=crop&q=80&w=2000'); 
+    background-size: cover; 
+    background-position: center;
+    min-height: 40vh;
+    border-radius: 0 0 150px 0;
+    overflow: hidden;">
+    
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0, 0, 9, 0.65);"></div>
+    
+    <div class="container h-100 position-relative d-flex align-items-center" style="min-height: 40vh; z-index: 10;">
+        <div class="text-white">
+            <h6 class="text-warning fw-bold text-uppercase tracking-widest mb-3">Institutional Planning</h6>
+            <h1 class="display-4 fw-bold lh-1 mb-0">Academic <span style="border-bottom: 4px solid #ffc107;">Calendar</span></h1>
+            <p class="lead opacity-90 mt-3">"Trust" - Scheduled academic activities for the session 2025-26.</p>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-5">
+        <div class="col-lg-8">
+            <h3 class="fw-bold text-dark mb-4 border-start border-4 border-danger ps-3">Major Academic Events</h3>
+            
+            <div class="card border-0 shadow-sm rounded-0 overflow-hidden">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-dark text-white">
+                        <tr>
+                            <th class="p-3">Month / Date</th>
+                            <th class="p-3">Academic Description</th>
+                            <th class="p-3">Category</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white">
+                        <tr>
+                            <td class="p-3 fw-bold">15 March 2026</td>
+                            <td class="p-3">Mid-Term Examination Commencement</td>
+                            <td class="p-3"><span class="badge bg-danger">Examination</span></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 fw-bold">20 March 2026</td>
+                            <td class="p-3">Annual Cultural Meet - VEDA</td>
+                            <td class="p-3"><span class="badge bg-primary">Event</span></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 fw-bold">05 April 2026</td>
+                            <td class="p-3">Submission of Internal Projects</td>
+                            <td class="p-3"><span class="badge bg-warning text-dark">Academics</span></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 fw-bold">15 May 2026</td>
+                            <td class="p-3">End-Semester Examinations Begin</td>
+                            <td class="p-3"><span class="badge bg-danger">Examination</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-4 text-end">
+                <button class="btn btn-outline-dark rounded-0 px-4 fw-bold">
+                    <i class="bi bi-download me-2"></i>Download Full PDF
+                </button>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="p-4 bg-light border-start border-5 border-maroon shadow-sm mb-4">
+                <h5 class="fw-bold mb-3">Notice Desk</h5>
+                <p class="text-muted small lh-lg">Dates are subject to change based on JNTUK and Autonomous council notifications.</p>
+            </div>
+            
+            <div class="bg-news shadow-sm p-4 text-white rounded mb-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-info-circle me-2"></i>Support</h5>
+                <p class="small">For any queries regarding the schedule, please contact the Office of the Controller of Examinations.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .tracking-widest { letter-spacing: 0.2rem; }
+    .border-maroon { border-left-color: #800000 !important; }
+    .bg-news { background-color: #92d050; }
+</style>
+
+{% endblock %}

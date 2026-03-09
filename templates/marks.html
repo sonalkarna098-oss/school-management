@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h3 class="mb-4">Marks Management</h3>
+
+    {# 1. HIDE ADD FORM FROM STUDENTS/PARENTS #}
+    {% if session['user_role'] == 'teacher' %}
+    <div class="card p-4 shadow mb-4 border-0">
+        <h5 class="text-warning">Enter Student Marks</h5>
+        <form method="POST" action="/marks">
+            <div class="row g-3">
+                <div class="col-md-2">
+                    <label class="form-label">Class</label>
+                    <select id="classSelect" name="class" class="form-select" required>
+                        <option value="">Choose Class</option>
+                        {% for i in range(1,11) %}
+                        <option value="{{i}}">Class {{i}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Student</label>
+                    <select id="studentSelect" name="student_id" class="form-select" required>
+                        <option value="">Select class first</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Subject</label>
+                    <input type="text" name="subject" class="form-control" placeholder="e.g. Maths" required>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Marks</label>
+                    <input type="number" name="marks" class="form-control" required>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Exam</label>
+                    <select name="exam" class="form-select">
+                        <option value="Mid Term">Mid Term</option>
+                        <option value="Final">Final</option>
+                    </select>
+                </div>
+                <div class="col-md-1 d-flex align-items-end">
+                    <button type="submit" class="btn btn-warning w-100">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+    <div class="card p-3 mb-4 bg-light border-0 shadow-sm">
+        <h5>Filter Records</h5>
+        <form method="GET" action="/marks" class="row g-3">
+            <div class="col-md-3">
+                <select name="class_no" class="form-select">
+                    <option value="">All Classes</option>
+                    {% for i in range(1,11) %}
+                    <option value="{{i}}" {% if selected_class == i|string %}selected{% endif %}>Class {{i}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="subject" class="form-control" placeholder="Filter by Subject" value="{{selected_subject or ''}}">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card shadow p-4 border-0">
+        <h5>Marks Records {% if selected_subject %}- {{selected_subject}}{% endif %}</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped align-middle">
+                <thead class="table-warning">
+                    <tr>
+                        <th>Student</th>
+                        <th>Class</th>
+                        <th>Subject</th>
+                        <th>Marks</th>
+                        <th>Exam</th>
+                        {# 2. HIDE ACTIONS HEADER #}
+                        {% if session['user_role'] == 'teacher' %}
+                        <th class="text-center">Actions</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in marks_list %}
+                    <tr>
+                        <td>{{m.student_name}}</td>
+                        <td>Class {{m.class}}</td>
+                        <td>{{m.subject}}</td>
+                        <td>{{m.marks}}</td>
+                        <td>{{m.exam}}</td>
+                        {# 3. HIDE EDIT/DELETE BUTTONS #}
+                        {% if session['user_role'] == 'teacher' %}
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-warning" 
+                                    onclick="editMarks('{{m._id}}', '{{m.subject}}', '{{m.marks}}', '{{m.exam}}', '{{m.class}}')">
+                                Edit
+                            </button>
+                            <a href="{{ url_for('delete_mark', id=m._id|string) }}" 
+                               class="btn btn-sm btn-outline-danger" 
+                               onclick="return confirm('Are you sure?')">
+                                Delete
+                            </a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">No records found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{# 4. RENDER EDIT MODAL ONLY FOR TEACHER #}
+{% if session['user_role'] == 'teacher' %}
+<div class="modal fade" id="marksModal" tabindex="-1">
+    <div class="modal-dialog">
+        <form action="/update_marks" method="POST" class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title">Edit Marks</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="id" id="m-id">
+                <input type="hidden" name="class" id="m-class">
+                <div class="mb-3">
+                    <label class="form-label">Subject</label>
+                    <input type="text" name="subject" id="m-sub" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Marks</label>
+                    <input type="number" name="marks" id="m-marks" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Exam</label>
+                    <select name="exam" id="m-exam" class="form-select">
+                        <option value="Mid Term">Mid Term</option>
+                        <option value="Final">Final</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-warning">Update Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// Logic for dynamic student dropdown (Teacher only)
+document.getElementById("classSelect").addEventListener("change", function() {
+    let classNo = this.value;
+    let studentSelect = document.getElementById("studentSelect");
+    if (!classNo) return;
+
+    fetch("/get_students/" + classNo)
+    .then(response => response.json())
+    .then(data => {
+        studentSelect.innerHTML = '<option value="">Choose Student</option>';
+        data.forEach(student => {
+            studentSelect.innerHTML += `<option value="${student.id}">${student.name}</option>`;
+        });
+    });
+});
+
+function editMarks(id, sub, marks, exam, cls) {
+    document.getElementById('m-id').value = id;
+    document.getElementById('m-sub').value = sub;
+    document.getElementById('m-marks').value = marks;
+    document.getElementById('m-exam').value = exam;
+    document.getElementById('m-class').value = cls;
+    new bootstrap.Modal(document.getElementById('marksModal')).show();
+}
+</script>
+{% endif %}
+
+{% endblock %}

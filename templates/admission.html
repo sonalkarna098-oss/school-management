@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container py-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb" style="font-size: 0.85rem;">
+            <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
+            <li class="breadcrumb-item active fw-bold text-dark">Admission Application</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 rounded-0">
+                <div class="card-header bg-dark text-white p-4 rounded-0 border-start border-5 border-danger">
+                    <h4 class="fw-bold mb-1">Student Admission Form</h4>
+                    <p class="small mb-0 opacity-75 text-uppercase tracking-wider">Academic Session 2026-27</p>
+                </div>
+
+                <div class="card-body p-5 bg-white">
+                    <form action="/admission" method="POST">
+                        <h6 class="text-primary fw-bold mb-4 border-bottom pb-2">Personal Information</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-12">
+                                <label class="form-label fw-semibold small text-muted">Full Name (As per SSC)</label>
+                                <input type="text" name="full_name" class="form-control rounded-0" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-muted">Email Address</label>
+                                <input type="email" name="email" class="form-control rounded-0" placeholder="example@mail.com" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-muted">Phone Number</label>
+                                <input type="tel" name="phone" class="form-control rounded-0" placeholder="+91" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-muted">Date of Birth</label>
+                                <input type="date" name="dob" class="form-control rounded-0" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small text-muted">Course Interested In</label>
+                                <select name="course" class="form-select rounded-0" required>
+                                    <option value="" selected disabled>Choose Course</option>
+                                    <option value="CSE">Computer Science & Engineering</option>
+                                    <option value="ECE">Electronics & Communication</option>
+                                    <option value="EEE">Electrical & Electronics</option>
+                                    <option value="MECH">Mechanical Engineering</option>
+                                    <option value="CIVIL">Civil Engineering</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <h6 class="text-primary fw-bold mb-4 border-bottom pb-2">Address for Communication</h6>
+                        <div class="mb-4">
+                            <textarea name="address" class="form-control rounded-0" rows="3" placeholder="Full residential address..." required></textarea>
+                        </div>
+
+                        <div class="alert alert-light border small text-muted mb-4">
+                            By clicking submit, you agree to the institution's terms and conditions regarding the admission process.
+                        </div>
+
+                        <div class="text-end">
+                            <button type="reset" class="btn btn-light rounded-0 px-4 me-2">Clear Form</button>
+                            <button type="submit" class="btn btn-dark rounded-0 px-5 fw-bold">Submit Application</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control:focus, .form-select:focus {
+        border-color: #800000;
+        box-shadow: none;
+    }
+    .tracking-wider { letter-spacing: 1px; }
+</style>
+
+{% endblock %}

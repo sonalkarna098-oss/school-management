@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPSEBS Portal - Access Center</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        /* Official Top Bar styling */
+        .header-banner { background: white; border-bottom: 3px solid #0056b3; padding: 20px 0; text-align: center; }
+        
+        /* Navbar styling matching org1.png */
+        .navbar { background: white; border-bottom: 1px solid #eee; padding: 12px 0; }
+        .navbar-brand { font-size: 1.5rem; font-weight: bold; letter-spacing: -0.5px; }
+        .nav-link { font-weight: 500; color: #6c757d !important; font-size: 0.95rem; padding: 0 15px !important; }
+        .nav-link:hover { color: #007bff !important; }
+        
+        /* Layout Styling for Cards */
+        .login-section { margin-top: 50px; }
+        .auth-card { border: none; border-radius: 15px; overflow: hidden; transition: transform 0.3s; height: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .auth-card:hover { transform: translateY(-5px); }
+        
+        .card-header-custom { padding: 20px; text-align: right; color: white; font-weight: bold; font-size: 1.2rem; }
+        .bg-teacher { background: #8e24aa; } 
+        .bg-student { background: #fb8c00; } 
+        .bg-parent { background: #039be5; }  
+
+        .card-body { background: white; padding: 25px; }
+        .form-label { font-size: 0.9rem; color: #d32f2f; font-weight: bold; }
+        .avatar-img { width: 80px; margin-top: -10px; }
+        
+        .btn-login { border-radius: 20px; padding: 5px 25px; font-weight: bold; text-transform: uppercase; }
+        .btn-admission { border: 1px solid #333; color: #333; font-weight: 600; text-decoration: none; font-size: 0.85rem; }
+        .toggle-link { font-size: 0.8rem; cursor: pointer; display: block; margin-top: 10px; color: #666; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<div class="header-banner">
+    <div class="container">
+        <h2 class="fw-bold m-0">SOUTH POINT S.E.C  E.N.G B.O.A. SCHOOL (+2) </h2>
+        <p class="text-muted mb-0">An Private Institution</p>
+        <small>Malangwa, Sarlahi</small>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg sticky-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <span style="color: #007bff;">SPSEBS</span> <span class="text-dark">Portal</span>
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#acetNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="acetNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('courses') }}">Courses</a></li>
+                
+                {# Show Portal Link only when Logged In #}
+                {% if session.get('user_role') %}
+                    <li class="nav-item">
+                        <a class="nav-link text-primary" href="{{ url_for('dashboard') }}">
+                            <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                        </a>
+                    </li>
+                {% endif %}
+                
+                
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">Contact</a></li>
+            </ul>
+            
+            <div class="d-flex align-items-center gap-3">
+                {% if not session.get('user_role') %}
+                    <a  href="{{ url_for('admission') }}" class="btn btn-admission px-4 py-2">Admission Open <i class="bi bi-arrow-up-right ms-1"></i></a>
+                {% else %}
+                    <div class="text-end d-none d-md-block lh-1">
+                        <small class="text-muted d-block" style="font-size: 0.6rem; text-transform: uppercase;">{{ session['user_role'] }}</small>
+                        <span class="fw-bold small">{{ session['username'] }}</span>
+                    </div>
+                    <a href="{{ url_for('logout') }}" class="btn btn-sm btn-outline-danger rounded-0 px-3" onclick="return confirm('Securely sign out?')">
+                        Logout
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container login-section">
+    <div class="row g-4 justify-content-center">
+        
+        <div class="col-md-4">
+            <div class="card auth-card">
+                <div class="card-header-custom bg-teacher">Employee Login / Signup</div>
+                <div class="card-body">
+                    <form action="/login" method="POST">
+                        <input type="hidden" name="role" value="teacher">
+                        <div class="mb-3">
+                            <label class="form-label">User Name :</label>
+                            <input type="text" name="username" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password :</label>
+                            <input type="password" name="password" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <img src="https://cdn-icons-png.flaticon.com/512/206/206857.png" class="avatar-img" alt="Teacher">
+                            <button type="submit" class="btn btn-primary btn-login bg-teacher border-0">Login</button>
+                        </div>
+                        <a href="/signup" class="toggle-link text-center">New Teacher? Register here</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card auth-card">
+                <div class="card-header-custom bg-student">Student Login / Signup</div>
+                <div class="card-body">
+                    <form action="/login" method="POST">
+                        <input type="hidden" name="role" value="student">
+                        <div class="mb-3">
+                            <label class="form-label">User Name :</label>
+                            <input type="text" name="username" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password :</label>
+                            <input type="password" name="password" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135810.png" class="avatar-img" alt="Student">
+                            <button type="submit" class="btn btn-warning btn-login bg-student border-0 text-white">Login</button>
+                        </div>
+                        <a href="/signup" class="toggle-link text-center">New Student? Register here</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card auth-card">
+                <div class="card-header-custom bg-parent">Parent Login / Signup</div>
+                <div class="card-body">
+                    <form action="/login" method="POST">
+                        <input type="hidden" name="role" value="parent">
+                        <div class="mb-3">
+                            <label class="form-label">User Name :</label>
+                            <input type="text" name="username" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password :</label>
+                            <input type="password" name="password" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <img src="https://cdn-icons-png.flaticon.com/512/4128/4128176.png" class="avatar-img" alt="Parent">
+                            <button type="submit" class="btn btn-info btn-login bg-parent border-0 text-white">Login</button>
+                        </div>
+                        <a href="/signup" class="toggle-link text-center">New Parent? Register here</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-center mt-5">
+        <p class="small text-muted">Click <a href="#" class="text-primary fw-bold">here</a> to online payment without login</p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
