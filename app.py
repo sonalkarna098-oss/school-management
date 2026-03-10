@@ -315,4 +315,5 @@ def get_students(class_no):
     return jsonify([{"id": str(s["_id"]), "name": s["name"]} for s in students_cursor])
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
