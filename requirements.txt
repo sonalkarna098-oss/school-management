@@ -3,3 +3,5 @@ pymongo
 dnspython
 python-dotenv
 gunicorn
+pytest
+pytest-cov
